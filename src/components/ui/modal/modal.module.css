@@ -16,7 +16,8 @@
 }
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   min-height: 64px;
 }
@@ -41,4 +42,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.title {
+  text-align: center;
 }

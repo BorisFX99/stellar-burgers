@@ -23,9 +23,14 @@
       "@ui": ["src/components/ui"],
       "@ui-pages": ["src/components/ui/pages"],
       "@utils-types": ["src/utils/types"],
-      "@api": ["src/utils/burger-api.ts"],
+      "@utils": ["src/utils"],
+      "@api": ["src/utils/Api"],
       "@slices": ["src/services/slices"],
-      "@selectors": ["src/services/selectors"]
+      "@slice/*": ["src/services/slices/*"],
+      "@selectors": ["src/services/selectors"],
+      "@store-hooks": ["src/services/hooks"],
+      "@thunks": ["src/services/thunk"],
+      "@src": ["src"]
     }
   },
   "include": ["src"]
