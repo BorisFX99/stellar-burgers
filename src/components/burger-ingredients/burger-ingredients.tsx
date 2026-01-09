@@ -4,6 +4,7 @@ import { useAppSelector } from '@store-hooks';
 import { ingredientsSelectors } from '@slice/ingredients';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
+import { groupIngredientsByTypes } from '@utils';
 
 export const BurgerIngredients: FC = () => {
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
@@ -11,11 +12,13 @@ export const BurgerIngredients: FC = () => {
   const titleMainRef = useRef<HTMLHeadingElement>(null);
   const titleSaucesRef = useRef<HTMLHeadingElement>(null);
   const ingredientsFromApi = useAppSelector(
-    ingredientsSelectors.selectByTypeIngredients
+    ingredientsSelectors.selectAllIngredients
   );
 
+  //группируем по виду
   //Сгруппированные по типу все ингридиенты
-  const { buns, mains, sauces } = ingredientsFromApi;
+  const { buns, mains, sauces } = groupIngredientsByTypes(ingredientsFromApi);
+  console.log(mains)
 
   const [bunsRef, inViewBuns] = useInView({
     threshold: 0

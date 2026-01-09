@@ -19,11 +19,11 @@ export const ProfileMenu: FC = () => {
     constructorIngredientActions
   );
   const { clearFeeds } = useDispatchedActions(feedsActions);
-  const { clearIngredients, fetchIngredients } =
+  const { clearIngredients } =
     useDispatchedActions(ingredientsActions);
   const { clearUser } = useDispatchedActions(userActions);
   const { clearOrders } = useDispatchedActions(userOrdersActions);
-  const { setAuthChecked } = useDispatchedActions(userActions);
+
 
   const handleLogout = () => {
     fetchlogout()
@@ -32,18 +32,17 @@ export const ProfileMenu: FC = () => {
         localStorage.removeItem('refreshToken');
         deleteCookie('accessToken');
         clearConstructor();
-        clearFeeds();
         clearIngredients();
         clearUser();
         clearOrders();
+        clearFeeds();
       })
       .catch((error) => {
         console.error('Ошибка при выходе:', error);
       })
-      .finally(() => {
-        setAuthChecked();
-        fetchIngredients();
-      });
+      .finally(()=>{
+        window.location.reload()
+      })
   };
 
   if (isLoading === TrequestStatus.LOADING) {

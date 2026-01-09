@@ -38,8 +38,9 @@ export const feedsSlice = createSlice({
     selectAllOrders: (state) => state.orders,
     selectRequestStatus: (state) => state.requestStatus,
     selectFeed: (state) => ({
+      orders:state.orders,
       total: state.total,
-      totalToday: state.totalToday
+      totalToday: state.totalToday,
     }),
     selectOrderByNumber: (state) => state.selectedOrderByNumber,
     selectOrderNumber: (state) =>

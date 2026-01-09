@@ -2,6 +2,8 @@ import { FC, memo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatchedActions } from '@store-hooks';
 import { constructorIngredientActions } from '@slice/constructorIngredients';
+import { TConstructorIngredient } from '@utils-types';
+import { v4 as uuidv4 } from 'uuid';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
@@ -13,7 +15,9 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
       constructorIngredientActions
     );
     const handleAdd = () => {
-      addIngredient(ingredient);
+      const id = uuidv4();
+      const ingredientWithId:TConstructorIngredient = {...ingredient, id}
+      addIngredient(ingredientWithId);
     };
 
     return (

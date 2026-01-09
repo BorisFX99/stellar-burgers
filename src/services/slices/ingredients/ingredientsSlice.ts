@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TrequestStatus, TIngredient } from '@utils-types';
 import { INGREDIENTS_SLICE_NAME } from '../sliceNames';
 import { fetchIngredients } from '@thunks';
-import { groupIngredientsByTypes } from '@utils';
 
 export interface Iingredients {
   ingredients: TIngredient[];
@@ -24,8 +23,6 @@ export const ingredientsSlice = createSlice({
   },
   selectors: {
     selectAllIngredients: (state) => state.ingredients,
-    selectByTypeIngredients: (state) =>
-      groupIngredientsByTypes(state.ingredients), //группируем по виду
     selectRequestStatus: (state) => state.requestStatus,
     selectIngredientById: (state, id: string) =>
       state.ingredients.find((ingredient) => ingredient._id === id)

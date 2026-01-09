@@ -5,7 +5,7 @@ import {
   TBurgerIngredientsTypes
 } from '@utils-types';
 import { SELECTED_INGREDIENTS_SLICE_NAME } from '../sliceNames';
-import { v4 as uuidv4 } from 'uuid';
+
 
 export type TselectedIngredients = {
   bun: TConstructorIngredient | null;
@@ -21,17 +21,12 @@ export const constructorIngredientSlice = createSlice({
   name: SELECTED_INGREDIENTS_SLICE_NAME,
   initialState,
   reducers: {
-    addIngredient: (state, action: PayloadAction<TIngredient>) => {
+    addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
       const ingredient = action.payload;
-      const id = uuidv4();
-      const constructorIngredient: TConstructorIngredient = {
-        ...ingredient,
-        id: id
-      };
-      if (constructorIngredient.type === TBurgerIngredientsTypes.BUNS) {
-        state.bun = constructorIngredient;
+      if (ingredient.type === TBurgerIngredientsTypes.BUNS) {
+        state.bun = ingredient;
       } else {
-        state.ingredients.push(constructorIngredient);
+        state.ingredients.push(ingredient);
       }
     },
 

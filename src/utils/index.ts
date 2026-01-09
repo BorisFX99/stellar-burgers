@@ -5,10 +5,11 @@ import {
   TFormInputErrMsg,
   REGEX,
   ErrorMessages,
-  TConstructorIngredient
 } from '@utils-types';
+import { v4 as uuidv4 } from 'uuid';
 
 // Группируем ингридиенты по видам Булки | Начинки | Соусы
+// Добавляем им уникальные id
 export const groupIngredientsByTypes = (
   ingredients: TIngredient[]
 ): TBurgerIngredients => {
@@ -78,8 +79,8 @@ export const easyValidInputs: TEasyValidInputsFunc = ({
 };
 
 type ingridients = {
-  bun: TConstructorIngredient;
-  ingredients: TConstructorIngredient[];
+  bun: TIngredient;
+  ingredients: TIngredient[];
 };
 
 // Функция возвращает массив id ингридиенров для заказа
