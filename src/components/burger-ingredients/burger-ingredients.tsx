@@ -18,7 +18,6 @@ export const BurgerIngredients: FC = () => {
   //группируем по виду
   //Сгруппированные по типу все ингридиенты
   const { buns, mains, sauces } = groupIngredientsByTypes(ingredientsFromApi);
-  console.log(mains)
 
   const [bunsRef, inViewBuns] = useInView({
     threshold: 0

@@ -10,12 +10,10 @@ export const fetchRegisterUser = createAppAsyncThunk<
   `${USER_SLICE_NAME}/fetchRegisterUser`,
   async (userInfo: TRegisterData, { extra: api }) => {
     const data = await api.registerUserApi(userInfo);
-    if (data.success) {
       localStorage.setItem('refreshToken', data.refreshToken);
       setCookie('accessToken', data.accessToken, {
         expires: 7 * 24 * 60 * 60 // на неделю
       });
-    }
     return data;
   }
 );

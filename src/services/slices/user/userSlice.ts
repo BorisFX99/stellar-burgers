@@ -37,7 +37,6 @@ export const userSlice = createSlice({
     clearUser: (state) => {
       state.user = null;
       state.requestStatus = TrequestStatus.IDLE;
-      state.isAuthChecked = false;
       state.error = null;
     }
   },
