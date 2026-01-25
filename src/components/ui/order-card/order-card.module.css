@@ -14,6 +14,10 @@
   box-sizing: border-box;
 }
 
+.new_order {
+  animation: newOrderShadow 10s ease-out forwards;
+}
+
 .order_info {
   display: flex;
   justify-content: space-between;
@@ -63,4 +67,23 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+@keyframes newOrderShadow {
+  0% {
+    box-shadow:
+      0px 4px 32px 0px rgba(51, 51, 255, 0.5),
+      0px 0px 8px 8px rgba(51, 51, 255, 0.25),
+      0px 0px 16px 8px rgba(51, 51, 255, 0.25);
+  }
+  /*c 5 секунды снижаю яркость до 0*/
+  50% {
+    box-shadow:
+      0px 4px 32px 0px rgba(51, 51, 255, 0.5),
+      0px 0px 8px 8px rgba(51, 51, 255, 0.25),
+      0px 0px 16px 8px rgba(51, 51, 255, 0.25);
+  }
+  100% {
+    box-shadow: none;
+  }
 }

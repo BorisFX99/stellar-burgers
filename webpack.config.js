@@ -52,7 +52,7 @@ module.exports = {
       extensions: ['.js', '.jsx', '.ts', '.tsx']
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: './public/index.html',
     }),
     new Dotenv()
   ],
@@ -76,19 +76,26 @@ module.exports = {
       '@ui': path.resolve(__dirname, './src/components/ui'),
       '@ui-pages': path.resolve(__dirname, './src/components/ui/pages'),
       '@utils-types': path.resolve(__dirname, './src/utils/types'),
-      '@api': path.resolve(__dirname, './src/utils/burger-api.ts'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@api': path.resolve(__dirname, './src/utils/Api'),
       '@slices': path.resolve(__dirname, './src/services/slices'),
-      '@selectors': path.resolve(__dirname, './src/services/selectors')
+      '@slice': path.resolve(__dirname, './src/services/slices/'),
+      '@selectors': path.resolve(__dirname, './src/services/selectors'),
+      '@store-hooks': path.resolve(__dirname, './src/services/hooks'),
+      '@thunks': path.resolve(__dirname, 'src/services/thunk'),
+      'src': path.resolve(__dirname, './src') 
     }
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/',
+
   },
   devServer: {
     static: path.join(__dirname, './dist'),
     compress: true,
     historyApiFallback: true,
-    port: 4000
+    port: 4000,
   }
 };

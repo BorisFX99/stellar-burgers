@@ -1,0 +1,1 @@
+export { ResetPasswordGuard } from './resetPasswordGuard';

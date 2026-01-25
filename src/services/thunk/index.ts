@@ -1,0 +1,10 @@
+export { fetchIngredients } from './fetchIngredients';
+export { fetchAllFeeds } from './fetchAllFeeds';
+export { fetchOrderByNumber } from './fetchOrderByNumber';
+export { fetchGetUser } from './fetchGetUser';
+export { fetchLoginUser } from './fetchLoginUser';
+export { fetchRegisterUser } from './fetchRegisterUser';
+export { fetchUpdateUser } from './fetchUpdateUser';
+export { fetchUserOrders } from './fetchUserOrders';
+export { fetchOrderBurger } from './fetchOrderBurger';
+export { fetchlogout } from './fetchLogout';

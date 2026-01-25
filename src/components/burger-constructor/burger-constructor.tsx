@@ -1,24 +1,60 @@
-import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
+import { FC, useMemo, useState } from 'react';
+import { useAppSelector, useDispatchedActions } from '@store-hooks';
+import { TConstructorIngredient, AppRoutes } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import {
+  constructorIngredientActions,
+  constructorIngredientSelectors
+} from '@slice/constructorIngredients';
+import { userSelectors } from '@slice/user';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { userOrdersSelectors, userOrdersActions } from '@slice/userOrders';
+import { createOrderRequestBody } from '@utils';
 
 export const BurgerConstructor: FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const { fetchOrderBurger, setOrderRequest, removeNewOrder } =
+    useDispatchedActions(userOrdersActions); // запрос оформления заказа
+  const { clearConstructor } = useDispatchedActions(
+    constructorIngredientActions
+  ); // очистка конструктора заказа
 
-  const orderRequest = false;
+  const isUserLogin = useAppSelector(userSelectors.selectUser); // залогинен ли юзер
+  const constructorItems = useAppSelector(
+    constructorIngredientSelectors.selectSelectedIngredients
+  );
+  const orderRequest = useAppSelector(userOrdersSelectors.selectOrderRequest);
+  const newOrder = useAppSelector(userOrdersSelectors.selectNewOrder);
+  const orderModalData = newOrder ? newOrder.order : null;
+  const [modalOpen, setModalOpen] = useState(false); // переключатель показа модалки
 
-  const orderModalData = null;
-
+  //Написать логику модлаки заказа и закрытия
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    if (!isUserLogin) {
+      navigate(AppRoutes.Login, {
+        state: { from: location.pathname }
+      });
+      return;
+    }
+    const burgerFilling = createOrderRequestBody({
+      bun: constructorItems.bun,
+      ingredients: constructorItems.ingredients
+    });
+    fetchOrderBurger(burgerFilling)
+      .unwrap()
+      .then(() => {
+        clearConstructor();
+        setModalOpen(true); // показываем когда данные пришли
+      });
   };
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => {
+    removeNewOrder();
+    setModalOpen(false);
+    setOrderRequest(false);
+  };
 
   const price = useMemo(
     () =>
@@ -30,8 +66,6 @@ export const BurgerConstructor: FC = () => {
     [constructorItems]
   );
 
-  return null;
-
   return (
     <BurgerConstructorUI
       price={price}
@@ -40,6 +74,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      isOpen={modalOpen}
     />
   );
 };

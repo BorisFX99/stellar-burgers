@@ -1,5 +1,11 @@
+import { TOrder } from "@utils-types";
+
 export type FeedInfoUIProps = {
-  feed: any;
+  feed: {
+    orders:TOrder[];
+    total: number;
+    totalToday: number;
+};
   readyOrders: number[];
   pendingOrders: number[];
 };
@@ -14,3 +20,4 @@ export type TColumnProps = {
   title: string;
   content: number;
 };
+

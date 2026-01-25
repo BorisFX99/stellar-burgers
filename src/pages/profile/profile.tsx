@@ -1,16 +1,19 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { useAppSelector, useDispatchedActions } from '@store-hooks';
+import { userSelectors, userActions } from '@slice/user';
+import { Preloader } from '@ui';
+import { TrequestStatus } from '@utils-types';
 
 export const Profile: FC = () => {
+  const user = useAppSelector(userSelectors.selectUser);
+  const { fetchUpdateUser } = useDispatchedActions(userActions);
+  const isLoading = useAppSelector(userSelectors.selectRequestStatus);
   /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
 
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: user!.name,
+    email: user!.email,
     password: ''
   });
 
@@ -29,13 +32,14 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    fetchUpdateUser(formValue);
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user.name,
-      email: user.email,
+      name: user!.name,
+      email: user!.email,
       password: ''
     });
   };
@@ -47,6 +51,10 @@ export const Profile: FC = () => {
     }));
   };
 
+  if (isLoading === TrequestStatus.LOADING) {
+    return <Preloader />;
+  }
+
   return (
     <ProfileUI
       formValue={formValue}
@@ -56,6 +64,4 @@ export const Profile: FC = () => {
       handleInputChange={handleInputChange}
     />
   );
-
-  return null;
 };

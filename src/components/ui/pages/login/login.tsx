@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import {
   Input,
   Button,
@@ -14,7 +14,10 @@ export const LoginUI: FC<LoginUIProps> = ({
   errorText,
   handleSubmit,
   password,
-  setPassword
+  setPassword,
+  submitDisabled,
+  emailErr,
+  inputErrMsg
 }) => (
   <main className={styles.container}>
     <div className={`pt-6 ${styles.wrapCenter}`}>
@@ -32,8 +35,8 @@ export const LoginUI: FC<LoginUIProps> = ({
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               name='email'
-              error={false}
-              errorText=''
+              error={emailErr}
+              errorText={emailErr ? inputErrMsg?.emailError : ''}
               size='default'
             />
           </div>
@@ -45,7 +48,12 @@ export const LoginUI: FC<LoginUIProps> = ({
             />
           </div>
           <div className={`pb-6 ${styles.button}`}>
-            <Button type='primary' size='medium' htmlType='submit'>
+            <Button
+              type='primary'
+              size='medium'
+              htmlType='submit'
+              disabled={submitDisabled}
+            >
               Войти
             </Button>
           </div>

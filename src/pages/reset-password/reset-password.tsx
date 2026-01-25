@@ -1,7 +1,6 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { resetPasswordApi } from '@api';
+import { api } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
 
 export const ResetPassword: FC = () => {
@@ -13,19 +12,22 @@ export const ResetPassword: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     setError(null);
-    resetPasswordApi({ password, token })
+    api
+      .resetPasswordApi({ password, token })
       .then(() => {
-        localStorage.removeItem('resetPassword');
-        navigate('/login');
+        // localStorage.removeItem('resetPassword');
+        navigate('/login', { replace: true });
       })
       .catch((err) => setError(err));
   };
 
-  useEffect(() => {
-    if (!localStorage.getItem('resetPassword')) {
-      navigate('/forgot-password', { replace: true });
-    }
-  }, [navigate]);
+  // Решил использовать защищенный компонент resetPasswordGuard вместо флага в localStorage
+
+  // useEffect(() => {
+  //   // if (!localStorage.getItem('resetPassword')) {
+  //     navigate('/forgot-password', { replace: true });
+  //   // }
+  // }, [navigate]);
 
   return (
     <ResetPasswordUI
