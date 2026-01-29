@@ -10,13 +10,15 @@ export type TUserOrders = {
   requestStatus: TrequestStatus;
   newOrder: TNewOrderResponse | null;
   orderRequest: boolean;
+  error: string | null;
 };
 
-const initialState: TUserOrders = {
+export const initialState: TUserOrders = {
   orders: [],
   requestStatus: TrequestStatus.IDLE,
   newOrder: null,
-  orderRequest: false
+  orderRequest: false,
+  error: null
 };
 
 export const userOrdersSlice = createSlice({
@@ -54,6 +56,7 @@ export const userOrdersSlice = createSlice({
         (state, action: PayloadAction<TOrder[]>) => {
           state.orders = action.payload;
           state.requestStatus = TrequestStatus.SUCCESS;
+          state.error = null;
         }
       )
       .addCase(
@@ -62,13 +65,15 @@ export const userOrdersSlice = createSlice({
           state.newOrder = action.payload;
           state.requestStatus = TrequestStatus.SUCCESS;
           state.orderRequest = false;
+          state.error = null;
         }
       )
       .addMatcher(
         isAnyOf(fetchUserOrders.rejected, fetchOrderBurger.rejected),
-        (state) => {
+        (state, action) => {
           state.requestStatus = TrequestStatus.ERROR;
           state.orderRequest = false;
+          if (action.error?.message) state.error = action.error?.message;
         }
       );
   }

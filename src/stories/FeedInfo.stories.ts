@@ -26,11 +26,11 @@ export const DefaultFeedInfo: Story = {
           createdAt: '',
           updatedAt: '',
           number: 123,
-          ingredients: ['Булка', 'Начинка'],
+          ingredients: ['Булка', 'Начинка']
         }
       ],
       total: 12,
-      totalToday: 2,
+      totalToday: 2
     },
     readyOrders: [123, 124, 125],
     pendingOrders: [126, 127]

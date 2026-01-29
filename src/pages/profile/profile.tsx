@@ -1,14 +1,17 @@
 import { ProfileUI } from '@ui-pages';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { useAppSelector, useDispatchedActions } from '@store-hooks';
 import { userSelectors, userActions } from '@slice/user';
 import { Preloader } from '@ui';
-import { TrequestStatus } from '@utils-types';
+import { ErrorMessages, TrequestStatus } from '@utils-types';
+import { useLocation } from 'react-router-dom';
 
 export const Profile: FC = () => {
+  const location = useLocation();
   const user = useAppSelector(userSelectors.selectUser);
-  const { fetchUpdateUser } = useDispatchedActions(userActions);
+  const { fetchUpdateUser, clearError } = useDispatchedActions(userActions);
   const isLoading = useAppSelector(userSelectors.selectRequestStatus);
+  const userError = useAppSelector(userSelectors.selectUserError);
   /** TODO: взять переменную из стора */
 
   const [formValue, setFormValue] = useState({
@@ -51,6 +54,14 @@ export const Profile: FC = () => {
     }));
   };
 
+  // Очистка ошибки при изменении маршрута
+  useEffect(
+    () => () => {
+      clearError();
+    },
+    [clearError]
+  );
+
   if (isLoading === TrequestStatus.LOADING) {
     return <Preloader />;
   }
@@ -62,6 +73,8 @@ export const Profile: FC = () => {
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
       handleInputChange={handleInputChange}
+      updateUserError={userError}
+      errorText={ErrorMessages.UPDATE_USER_LOGIN_ERROR}
     />
   );
 };

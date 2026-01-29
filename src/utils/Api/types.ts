@@ -1,4 +1,10 @@
-import { TIngredient, TOrder, TOrdersData, TUser } from '../types';
+import {
+  ErrorMessages,
+  TIngredient,
+  TOrder,
+  TOrdersData,
+  TUser
+} from '../types';
 
 export type TServerResponse<T> = {
   success: boolean;
@@ -42,6 +48,7 @@ export type TAuthResponse = TServerResponse<{
   refreshToken: string;
   accessToken: string;
   user: TUser;
+  message?: string;
 }>;
 
 export type TUserResponse = TServerResponse<{ user: TUser }>;

@@ -14,13 +14,15 @@ export interface IUserState {
   user: TUser | null;
   requestStatus: TrequestStatus;
   isAuthChecked: boolean;
+  userErrorMessage: string | null;
   error: string | null;
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   user: null,
   requestStatus: TrequestStatus.IDLE,
   isAuthChecked: false,
+  userErrorMessage: null,
   error: null
 };
 
@@ -33,35 +35,47 @@ export const userSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
-    },
-    clearUser: (state) => {
-      state.user = null;
-      state.requestStatus = TrequestStatus.IDLE;
-      state.error = null;
+      state.userErrorMessage = null;
     }
   },
   selectors: {
     selectUser: (state) => state.user,
     selectIsAuthChecked: (state) => state.isAuthChecked,
-    selectUserError: (state) => state.error,
+    selectUserError: (state) => state.userErrorMessage,
     selectRequestStatus: (state) => state.requestStatus
   },
   extraReducers: (builder) => {
     builder
       // Обработка fullfiled разлогина
       .addCase(fetchlogout.fulfilled, (state) => {
-        state.requestStatus = TrequestStatus.SUCCESS;
+        state.requestStatus = TrequestStatus.IDLE;
+        state.user = null;
+        state.error = null;
+        state.userErrorMessage = null;
       })
       // Обработка ошибки из формы Логина
       .addCase(fetchLoginUser.rejected, (state, action) => {
+        state.requestStatus = TrequestStatus.ERROR;
         if (action.error?.message) {
-          state.error = ErrorMessages.FORM_SUBMIT_LOGIN;
+          state.userErrorMessage = ErrorMessages.FORM_SUBMIT_LOGIN;
+          state.error = action.error?.message;
         }
       })
       // Обработка ошибки из формы Регистрации
       .addCase(fetchRegisterUser.rejected, (state, action) => {
-        if (action.error?.message) {
-          state.error = ErrorMessages.FORM_SUBMIT_REGISTER;
+        state.requestStatus = TrequestStatus.ERROR;
+        if (action.error.message) {
+          state.userErrorMessage = ErrorMessages.FORM_SUBMIT_REGISTER;
+          state.error = action.error?.message;
+        }
+      })
+
+      // Обработка ошибки из формы Обновления данных пользователя
+      .addCase(fetchUpdateUser.rejected, (state, action) => {
+        state.requestStatus = TrequestStatus.ERROR;
+        if (action.error.message) {
+          state.userErrorMessage = ErrorMessages.UPDATE_USER_SUBMIT_ERROR;
+          state.error = action.error?.message;
         }
       })
       // Общая обработка для всех pending thunk
@@ -83,7 +97,9 @@ export const userSlice = createSlice({
         isAnyOf(fetchGetUser.fulfilled, fetchUpdateUser.fulfilled),
         (state, action: PayloadAction<TUserResponse>) => {
           state.requestStatus = TrequestStatus.SUCCESS;
+          state.isAuthChecked = true;
           state.error = null;
+          state.userErrorMessage = null;
           const { success, user } = action.payload;
           if (success && user) {
             state.user = user;
@@ -98,6 +114,7 @@ export const userSlice = createSlice({
         (state, action: PayloadAction<TAuthResponse>) => {
           state.requestStatus = TrequestStatus.SUCCESS;
           state.error = null;
+          state.userErrorMessage = null;
           const { success, user } = action.payload;
           if (success && user) {
             state.user = user;
@@ -106,17 +123,14 @@ export const userSlice = createSlice({
           }
         }
       )
-      // Общая обработка для всех rejected
+      // Общая обработка для всех остальных rejected
       .addMatcher(
-        isAnyOf(
-          fetchGetUser.rejected,
-          fetchLoginUser.rejected,
-          fetchRegisterUser.rejected,
-          fetchUpdateUser.rejected,
-          fetchlogout.rejected
-        ),
-        (state) => {
+        isAnyOf(fetchGetUser.rejected, fetchlogout.rejected),
+        (state, action) => {
           state.requestStatus = TrequestStatus.ERROR;
+          if (action.error.message) {
+            state.error = action.error?.message;
+          }
         }
       );
   }

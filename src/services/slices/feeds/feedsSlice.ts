@@ -8,15 +8,17 @@ export type Tfeeds = Omit<TFeedsResponse, 'success'> & {
   requestStatus: TrequestStatus;
   selectedOrderByNumber: TOrder | null;
   newFeeds: string[];
+  error: string | null;
 };
 
-const initialState: Tfeeds = {
+export const initialState: Tfeeds = {
   orders: [],
   total: 0,
   totalToday: 0,
   requestStatus: TrequestStatus.IDLE,
   selectedOrderByNumber: null,
-  newFeeds: []
+  newFeeds: [],
+  error: null
 };
 
 export const feedsSlice = createSlice({
@@ -38,9 +40,9 @@ export const feedsSlice = createSlice({
     selectAllOrders: (state) => state.orders,
     selectRequestStatus: (state) => state.requestStatus,
     selectFeed: (state) => ({
-      orders:state.orders,
+      orders: state.orders,
       total: state.total,
-      totalToday: state.totalToday,
+      totalToday: state.totalToday
     }),
     selectOrderByNumber: (state) => state.selectedOrderByNumber,
     selectOrderNumber: (state) =>
@@ -65,6 +67,7 @@ export const feedsSlice = createSlice({
               .map((newFeed) => newFeed._id);
           }
           Object.assign(state, feedsData);
+          state.error = null;
           state.requestStatus = TrequestStatus.SUCCESS;
         }
       )
@@ -72,6 +75,7 @@ export const feedsSlice = createSlice({
         fetchOrderByNumber.fulfilled,
         (state, action: PayloadAction<TOrderResponse>) => {
           state.requestStatus = TrequestStatus.SUCCESS;
+          state.error = null;
           const { orders } = action.payload;
           if (orders && orders.length > 0) {
             state.selectedOrderByNumber = action.payload.orders[0];
@@ -88,8 +92,9 @@ export const feedsSlice = createSlice({
       // Общая обработка для всех rejected
       .addMatcher(
         isAnyOf(fetchAllFeeds.rejected, fetchOrderByNumber.rejected),
-        (state) => {
+        (state, action) => {
           state.requestStatus = TrequestStatus.ERROR;
+          if (action.error?.message) state.error = action.error?.message;
         }
       );
   }

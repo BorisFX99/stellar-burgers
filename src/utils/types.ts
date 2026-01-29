@@ -86,7 +86,9 @@ export enum ErrorMessages {
   FORM_SUBMIT_LOGIN = 'Неверный логин или пароль',
   FORM_SUBMIT_REGISTER = 'Этот логин уже занят, выберите другой 😉',
   EMAIL_ERROR = 'Некорректный Email',
-  USER_NAME_ERROR = 'Укажите имя'
+  USER_NAME_ERROR = 'Укажите имя',
+  UPDATE_USER_LOGIN_ERROR = 'Этот логин уже занят!',
+  UPDATE_USER_SUBMIT_ERROR = 'Не удалось обновить данные!'
 }
 
 export type TFormInputErrMsg = {

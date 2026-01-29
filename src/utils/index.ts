@@ -4,9 +4,8 @@ import {
   TBurgerIngredientsTypes,
   TFormInputErrMsg,
   REGEX,
-  ErrorMessages,
+  ErrorMessages
 } from '@utils-types';
-import { v4 as uuidv4 } from 'uuid';
 
 // Группируем ингридиенты по видам Булки | Начинки | Соусы
 // Добавляем им уникальные id
