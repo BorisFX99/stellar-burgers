@@ -1,18 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  TConstructorIngredient,
-  TIngredient,
-  TBurgerIngredientsTypes
-} from '@utils-types';
+import { TConstructorIngredient, TBurgerIngredientsTypes } from '@utils-types';
 import { SELECTED_INGREDIENTS_SLICE_NAME } from '../sliceNames';
-
 
 export type TselectedIngredients = {
   bun: TConstructorIngredient | null;
   ingredients: TConstructorIngredient[];
 };
 
-const initialState: TselectedIngredients = {
+export const initialState: TselectedIngredients = {
   bun: null,
   ingredients: []
 };

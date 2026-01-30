@@ -4,7 +4,7 @@ import { ProfileMenuUI, Preloader } from '@ui';
 import { useDispatchedActions, useAppSelector } from '@store-hooks';
 import { userSelectors, userActions } from '@slice/user';
 import { TrequestStatus } from '@utils-types';
-import { deleteCookie } from 'src/utils/cookie';
+import { deleteCookie } from '../../utils/cookie';
 import { constructorIngredientActions } from '@slice/constructorIngredients';
 import { feedsActions } from '@slice/feeds';
 import { ingredientsActions } from '@slice/ingredients';
@@ -19,11 +19,9 @@ export const ProfileMenu: FC = () => {
     constructorIngredientActions
   );
   const { clearFeeds } = useDispatchedActions(feedsActions);
-  const { clearIngredients } =
-    useDispatchedActions(ingredientsActions);
-  const { clearUser } = useDispatchedActions(userActions);
+  const { clearIngredients } = useDispatchedActions(ingredientsActions);
+  // const { clearUser } = useDispatchedActions(userActions);
   const { clearOrders } = useDispatchedActions(userOrdersActions);
-
 
   const handleLogout = () => {
     fetchlogout()
@@ -33,16 +31,16 @@ export const ProfileMenu: FC = () => {
         deleteCookie('accessToken');
         clearConstructor();
         clearIngredients();
-        clearUser();
+        // clearUser();
         clearOrders();
         clearFeeds();
       })
       .catch((error) => {
         console.error('Ошибка при выходе:', error);
       })
-      .finally(()=>{
-        window.location.reload()
-      })
+      .finally(() => {
+        window.location.reload();
+      });
   };
 
   if (isLoading === TrequestStatus.LOADING) {

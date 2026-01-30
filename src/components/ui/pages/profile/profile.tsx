@@ -13,7 +13,8 @@ export const ProfileUI: FC<ProfileUIProps> = ({
   updateUserError,
   handleSubmit,
   handleCancel,
-  handleInputChange
+  handleInputChange,
+  errorText
 }) => (
   <main className={`${commonStyles.container}`}>
     <div className={`mt-30 mr-15 ${styles.menu}`}>
@@ -44,8 +45,8 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             onChange={handleInputChange}
             value={formValue.email}
             name={'email'}
-            error={false}
-            errorText={''}
+            error={updateUserError !== null}
+            errorText={errorText}
             size={'default'}
             icon={'EditIcon'}
           />

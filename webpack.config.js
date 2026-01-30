@@ -83,7 +83,8 @@ module.exports = {
       '@selectors': path.resolve(__dirname, './src/services/selectors'),
       '@store-hooks': path.resolve(__dirname, './src/services/hooks'),
       '@thunks': path.resolve(__dirname, 'src/services/thunk'),
-      'src': path.resolve(__dirname, './src') 
+      // '@src': path.resolve(__dirname, './src'),
+      '@mocks': path.resolve(__dirname, 'test/__mocks__'),
     }
   },
   output: {

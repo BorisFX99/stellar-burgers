@@ -6,11 +6,13 @@ import { fetchIngredients } from '@thunks';
 export interface Iingredients {
   ingredients: TIngredient[];
   requestStatus: TrequestStatus;
+  error: string | null;
 }
 
-const initialState: Iingredients = {
+export const initialState: Iingredients = {
   ingredients: [],
-  requestStatus: TrequestStatus.IDLE
+  requestStatus: TrequestStatus.IDLE,
+  error: null
 };
 
 export const ingredientsSlice = createSlice({
@@ -32,14 +34,16 @@ export const ingredientsSlice = createSlice({
       .addCase(fetchIngredients.pending, (state) => {
         state.requestStatus = TrequestStatus.LOADING;
       })
-      .addCase(fetchIngredients.rejected, (state) => {
+      .addCase(fetchIngredients.rejected, (state, action) => {
         state.requestStatus = TrequestStatus.ERROR;
+        if (action.error?.message) state.error = action.error?.message;
       })
       .addCase(
         fetchIngredients.fulfilled,
         (state, action: PayloadAction<TIngredient[]>) => {
           state.requestStatus = TrequestStatus.SUCCESS;
           state.ingredients = action.payload;
+          state.error = null;
         }
       );
   }

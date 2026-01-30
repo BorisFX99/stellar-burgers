@@ -54,6 +54,7 @@ export const BurgerConstructor: FC = () => {
     removeNewOrder();
     setModalOpen(false);
     setOrderRequest(false);
+    clearConstructor();
   };
 
   const price = useMemo(

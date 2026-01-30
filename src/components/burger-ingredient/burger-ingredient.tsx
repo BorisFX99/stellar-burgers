@@ -16,7 +16,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     );
     const handleAdd = () => {
       const id = uuidv4();
-      const ingredientWithId:TConstructorIngredient = {...ingredient, id}
+      const ingredientWithId: TConstructorIngredient = { ...ingredient, id };
       addIngredient(ingredientWithId);
     };
 

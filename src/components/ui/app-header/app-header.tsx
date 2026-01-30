@@ -15,25 +15,29 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
     <nav className={`${styles.menu} p-4`}>
       <div className={styles.menu_part_left}>
         <NavLink to={AppRoutes.Constructor} className={styles.link}>
-          {({ isActive }) =>(
-          <>
-          <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
-          <p className={`text text_type_main-default ml-2 mr-10'
-            ${isActive ? styles.link_active : ''}`}>
-            Конструктор
-          </p>
-          </>
+          {({ isActive }) => (
+            <>
+              <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
+              <p
+                className={`text text_type_main-default ml-2 mr-10'
+            ${isActive ? styles.link_active : ''}`}
+              >
+                Конструктор
+              </p>
+            </>
           )}
         </NavLink>
         <NavLink to={AppRoutes.Feed} className={styles.link}>
           {({ isActive }) => (
-          <>
-            <ListIcon type={isActive ? 'primary' : 'secondary'} />
-            <p className={`text text_type_main-default ml-2
-              ${isActive ? styles.link_active : ''}`}>
-              Лента заказов
-            </p>
-          </>
+            <>
+              <ListIcon type={isActive ? 'primary' : 'secondary'} />
+              <p
+                className={`text text_type_main-default ml-2
+              ${isActive ? styles.link_active : ''}`}
+              >
+                Лента заказов
+              </p>
+            </>
           )}
         </NavLink>
       </div>
@@ -42,14 +46,16 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
       </div>
       <div className={styles.link_position_last}>
         <NavLink to={AppRoutes.Profile} className={styles.link}>
-           {({ isActive }) =>(
+          {({ isActive }) => (
             <>
-          <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
-          <p className={`text text_type_main-default ml-2'
-            ${isActive ? styles.link_active : ''}`}>
-            {userName || 'Личный кабинет'}
-          </p>
-          </>
+              <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+              <p
+                className={`text text_type_main-default ml-2'
+            ${isActive ? styles.link_active : ''}`}
+              >
+                {userName || 'Личный кабинет'}
+              </p>
+            </>
           )}
         </NavLink>
       </div>

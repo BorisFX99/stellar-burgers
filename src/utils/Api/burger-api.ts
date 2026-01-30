@@ -1,5 +1,5 @@
+import { ErrorMessages } from '@utils-types';
 import { setCookie, getCookie } from '../cookie';
-import { TOrdersData } from '../types';
 import {
   TServerResponse,
   TRefreshResponse,

@@ -30,7 +30,8 @@
       "@selectors": ["src/services/selectors"],
       "@store-hooks": ["src/services/hooks"],
       "@thunks": ["src/services/thunk"],
-      "@src": ["src"]
+      // "@src": ["src/*"],
+      "@mocks": ["test/__mocks__"]
     }
   },
   "include": ["src"]
