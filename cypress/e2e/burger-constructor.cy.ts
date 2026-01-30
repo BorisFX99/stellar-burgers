@@ -207,11 +207,14 @@ describe('Burger Constructor Page', () => {
       beforeEach(() => {
         // устанавливаем моки аутентификации и оформления заказа
         cy.mockAuthSuccess();
+
         // 1 арумент номер заказа, 2 это задержка в млс
         cy.mockCreateOrder(125, 3000);
 
         // Посещаем главную страницу
+
         cy.visit('/');
+        cy.wait('@getUserSuccess');
         // Ждем загрузки ингредиентов не опять, а снова...
         cy.wait('@getIngredients');
 
@@ -229,6 +232,7 @@ describe('Burger Constructor Page', () => {
           cy.get('[data-cy="order-button-container"]').find('button').as('orderButton')
 
       });
+
       afterEach(() => {
         // Очищаем после КАЖДОГО теста
         cy.clearCookies();

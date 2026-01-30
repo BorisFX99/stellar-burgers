@@ -11,7 +11,8 @@ const {
   addIngredient,
   deleteIngredient,
   moveDownIngredient,
-  moveUpIngredient
+  moveUpIngredient,
+  clearConstructor
 } = constructorIngredientActions;
 
 describe('constructorIngredientSlice reducer', () => {
@@ -89,4 +90,12 @@ describe('constructorIngredientSlice reducer', () => {
     expect(state.ingredients[1]).toEqual(mockFillingIngredients[0]);
     expect(state.ingredients[2]).toEqual(mockFillingIngredients[2]);
   });
+
+  // Очистка конструктора
+  it('check clear Burger Constructor', () => {
+    const action = clearConstructor();
+    const state = constructorIngredientSlice.reducer(initialState, action);
+    expect(state).toEqual(initialState);
+  });
+
 });
